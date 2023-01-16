@@ -14,7 +14,7 @@ export class AuthService {
   @Inject(JwtService)
   private readonly jwtService: JwtService;
 
-  public async register({ email, password }: RegisterRequestDto): Promise<RegisterResponse> {
+  public async register({ email,password ,name,role,usefulLinks }: RegisterRequestDto): Promise<RegisterResponse> {
     let auth: Auth = await this.repository.findOne({ where: { email } });
 
     if (auth) {
@@ -25,6 +25,9 @@ export class AuthService {
 
     auth.email = email;
     auth.password = this.jwtService.encodePassword(password);
+    auth.name = name;
+    auth.role = role;
+    auth.usefulLinks = usefulLinks;
 
     await this.repository.save(auth);
 
@@ -62,6 +65,6 @@ export class AuthService {
       return { status: HttpStatus.CONFLICT, error: ['User not found'], userId: null };
     }
 
-    return { status: HttpStatus.OK, error: null, userId: decoded.id };
+    return { status: HttpStatus.OK, error: null, userId: decoded.idUser };
   }
 }

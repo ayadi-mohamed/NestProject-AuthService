@@ -1,5 +1,6 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString, MinLength } from '@nestjs/class-validator';
 import { LoginRequest, RegisterRequest, ValidateRequest } from './auth.pb';
+import { roleEnum } from './auth.roles.enum';
 
 export class LoginRequestDto implements LoginRequest {
   @IsEmail()
@@ -10,12 +11,18 @@ export class LoginRequestDto implements LoginRequest {
 }
 
 export class RegisterRequestDto implements RegisterRequest {
+  
   @IsEmail()
   public readonly email: string;
-
   @IsString()
   @MinLength(8)
   public readonly password: string;
+  @IsString()
+  public readonly name: string;
+  @IsEnum(roleEnum)
+  public readonly role: roleEnum;
+  @IsOptional()
+  public readonly usefulLinks: string[];
 }
 
 export class ValidateRequestDto implements ValidateRequest {
