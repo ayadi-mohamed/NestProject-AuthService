@@ -6,9 +6,8 @@ export const protobufPackage = "auth";
 
 /** Register */
 export enum roleEnum {
-  PENDING = 0,
-  ACCEPTED = 1,
-  REJECTED = 2,
+  EMPLOYER = 0,
+  STUDENT = 1,
   UNRECOGNIZED = -1,
 }
 
@@ -43,7 +42,7 @@ export interface ValidateRequest {
 export interface ValidateResponse {
   status: number;
   error: string[];
-  userId: number;
+  idUser: number;
   role: string;
 }
 

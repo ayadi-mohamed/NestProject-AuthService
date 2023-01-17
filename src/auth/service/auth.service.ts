@@ -5,6 +5,7 @@ import { JwtService } from './jwt.service';
 import { RegisterRequestDto, LoginRequestDto, ValidateRequestDto } from '../auth.dto';
 import { Auth } from '../auth.entity';
 import { LoginResponse, RegisterResponse, ValidateResponse } from '../auth.pb';
+import { decode } from 'punycode';
 
 @Injectable()
 export class AuthService {
@@ -56,15 +57,15 @@ export class AuthService {
     const decoded: Auth = await this.jwtService.verify(token);
 
     if (!decoded) {
-      return { status: HttpStatus.FORBIDDEN, error: ['Token is invalid'], userId: null };
+      return { status: HttpStatus.FORBIDDEN, error: ['Token is invalid'], idUser: null, role: null};
     }
 
     const auth: Auth = await this.jwtService.validateUser(decoded);
 
     if (!auth) {
-      return { status: HttpStatus.CONFLICT, error: ['User not found'], userId: null };
+      return { status: HttpStatus.CONFLICT, error: ['User not found'], idUser: null, role:null };
     }
 
-    return { status: HttpStatus.OK, error: null, userId: decoded.idUser };
+    return { status: HttpStatus.OK, error: null, idUser: decoded.idUser, role: decoded.role };
   }
 }

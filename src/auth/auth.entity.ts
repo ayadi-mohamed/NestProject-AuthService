@@ -4,7 +4,7 @@ import { roleEnum } from './auth.roles.enum';
 @Entity()
 export class Auth extends BaseEntity {
   @PrimaryGeneratedColumn()
-  public userId!: number;
+  public idUser!: number;
 
   @Column({ type: 'varchar' })
   public email!: string;
